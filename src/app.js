@@ -1,42 +1,77 @@
 const express = require("express");
-const { adminAuth, userAuth } = require("./middlewares/auth");
+const connectDB = require("./config/database");
+const User = require("./models/user");
 
 const app = express();
 
-app.use("/admin", adminAuth);
+app.use(express.json());
 
-app.get("/admin/getAllData", (req, res) => {
-  res.send("All Data send");
-});
-
-app.delete("/admin/deleteUser", (req, res) => {
-  res.send("User Data deleted !");
-});
-
-app.get("/user", userAuth, (req, res) => {
-  console.log("in route handler 1");
-  res.send("userData send");
-});
-
-app.post("user/login", (req, res) => {
-  res.send("login successfully");
-});
-
-app.get("/user/getData", (req, res) => {
-  //   try {
-  throw Error("hfhf");
-  res.send("userData send");
-  //   } catch (err) {
-  //     res.status(500).send("Something went wrong in the user handler");
-  //   }
-});
-
-app.use("/", (err, req, res, next) => {
-  if (err) {
-    res.status(500).send("Something went wrong");
+app.get("/user", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).send("User is not found");
+    } else {
+      res.send(user);
+    }
+  } catch (err) {
+    console.error("User can not be saved", err);
+    res.status(400).send("Something went wrong");
   }
 });
 
-app.listen(7777, () => {
-  console.log("server is running");
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.send(users);
+  } catch (err) {
+    console.error("Something went erong", err);
+    res.status(400).send("Something went wrong");
+  }
 });
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (err) {
+    console.error("Something went erong", err);
+    res.status(400).send("Something went wrong");
+  }
+});
+
+app.patch('/user',async (req, res) => {
+  const userId = req.body.userId;
+  const updates = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(userId, updates);
+    res.send("User updated successfully");
+  } catch (err) {
+    console.error("Something went erong", err);
+    res.status(400).send("Something went wrong");
+  }
+});
+
+app.post("/signup", async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.send("User created successfully");
+  } catch (err) {
+    console.error("User can not be saved", err);
+    res.status(400).send("Something went wrong");
+  }
+});
+
+connectDB()
+  .then(() => {
+    console.log("DB connected successfully");
+    app.listen(7777, () => {
+      console.log("server is running");
+    });
+  })
+  .catch((err) => {
+    console.error("DB connection failed");
+  });
