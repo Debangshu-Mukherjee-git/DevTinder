@@ -210,12 +210,13 @@ app.use(express.json());
 
 ### **What express.json() does:**
 
-✔ Reads the incoming request body (which is a readable stream)
-✔ Parses JSON string → JS object
-✔ Places result in `req.body`
-✔ Calls `next()` internally to pass control to the next middleware or route handler
+- ✔ Reads the incoming request body (which is a readable stream)
+- ✔ Parses the JSON string → converts it into a JavaScript object
+- ✔ Attaches the parsed object to `req.body`
+- ✔ Internally calls `next()` to pass control to the next middleware or route handler
 
 ---
+
 
 # # **🛠️ Mongoose CRUD Behaviors & Tricks**
 
