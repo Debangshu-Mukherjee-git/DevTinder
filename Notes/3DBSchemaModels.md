@@ -345,12 +345,14 @@ Yes — unless manually filtered.
 
 ---
 
-# # **📌 Summary**
+## 📌 Summary
 
-✔ MongoDB needs **proper async connection** before starting server
-✔ Schemas define structure; models interact with DB
-✔ Mongoose adds extra features (`__v`, casting, validation)
-✔ express.json() is required to parse JSON body
-✔ CRUD behaviors differ (findOne, updateOne, save, create)
-✔ Many interview questions revolve around casting, validations, update behavior, and lean()
+- ✔ MongoDB requires a **successful async connection** before the server starts
+- ✔ **Schemas** define structure; **Models** interact with the database
+- ✔ Mongoose adds features like **__v**, type casting, middleware, and validation
+- ✔ `express.json()` is required to parse **JSON request bodies**
+- ✔ CRUD methods behave differently (`findOne`, `updateOne`, `save`, `create`)
+- ✔ Many interview questions focus on casting, validation, update behavior, and `lean()`
+
+---
 
