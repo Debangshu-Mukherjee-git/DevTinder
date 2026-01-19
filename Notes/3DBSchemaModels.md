@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 // Async function to connect to MongoDB
 const connectDB = async () => {
   await mongoose.connect(
-    "mongodb+srv://debangshumukherjee:dev-tinder-debangshu@cluster0.yc88hhf.mongodb.net/devTinder?appName=Cluster0"
+    "mongodb+srv://debangshumukherjee:dev-tinder-debangshu@.../devTinder?appName=Cluster0"
   );
 };
 
